@@ -10,6 +10,19 @@ class ListAllUsersUseCase {
 
   execute({ user_id }: IRequest): User[] {
     // Complete aqui
+    const userAdmin = this.usersRepository.findById(user_id);
+
+    if (!userAdmin) {
+      throw new Error("Invalid user id");
+    }
+
+    if (userAdmin.admin === false) {
+      throw new Error("You cant do this action");
+    }
+
+    const users = this.usersRepository.list();
+
+    return users;
   }
 }
 
